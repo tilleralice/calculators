@@ -1,267 +1,228 @@
-<!-- 
-  INSTRUCTIONS:
-  1. Paste this entire block of code into a Custom HTML block on your WordPress page.
-  2. This version uses a more compact, flexible layout and has the corrected 2025 tax brackets.
--->
-<div id="tax-calculator-wrapper">
-    <header style="text-align: center; margin-bottom: 2rem;">
-        <h1>Federal Income Tax Calculator</h1>
-        <p>Estimate your 2025 federal tax bill or refund.</p>
-    </header>
-
-    <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
-        <!-- Input Form Column -->
-        <div id="calculator-inputs" style="flex: 1; min-width: 320px; background-color: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); border: 1px solid #e5e7eb;">
-            <h2>Your Tax Details</h2>
-            <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;"></div>
-
-            <div style="margin-bottom: 0.75rem;">
-                <label for="filingStatus" style="display: block; margin-bottom: 0.5rem;">Filing Status</label>
-                <select id="filingStatus" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
-                    <option value="single">Single</option>
-                    <option value="marriedFilingJointly">Married Filing Jointly</option>
-                    <option value="headOfHousehold">Head of Household</option>
-                    <option value="marriedFilingSeparately">Married Filing Separately</option>
-                </select>
-            </div>
-
-            <div style="margin-bottom: 0.75rem;">
-                <label for="grossIncome" style="display: block; margin-bottom: 0.5rem;">Annual Gross Income</label>
-                <input type="number" id="grossIncome" value="100000" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.75rem;">
-                <div>
-                    <label for="yourAge" style="display: block; margin-bottom: 0.5rem;">Your Age</label>
-                    <input type="number" id="yourAge" value="35" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
-                </div>
-                <div id="spouse-age-container" style="display: none;">
-                    <label for="spouseAge" style="display: block; margin-bottom: 0.5rem;">Spouse's Age</label>
-                    <input type="number" id="spouseAge" value="35" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
-                </div>
-            </div>
-
-
-            <div style="margin-bottom: 0.75rem;">
-                <label style="display: block; margin-bottom: 0.5rem;">Deductions</label>
-                <div style="display: flex; background-color: #e5e7eb; border-radius: 0.5rem; padding: 0.25rem;">
-                    <button id="deduction-standard-btn" style="width: 50%; padding: 0.5rem 0; border-radius: 0.5rem; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">Standard</button>
-                    <button id="deduction-itemized-btn" style="width: 50%; padding: 0.5rem 0; border-radius: 0.5rem; background-color: transparent; color: #4b5563; border: none; cursor: pointer;">Itemized</button>
-                </div>
-                <div id="itemized-deductions-container" style="display: none; margin-top: 0.75rem;">
-                    <label for="itemizedDeductions" style="display: block; margin-bottom: 0.5rem;">Itemized Deduction Amount</label>
-                    <input type="number" id="itemizedDeductions" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
-                </div>
-            </div>
-
-            <div style="margin-top: 1.5rem;">
-                <button id="toggle-advanced-btn" style="width: 100%; text-align: left; color: #2563eb; font-weight: 600; background: none; border: none; cursor: pointer;">Show Advanced Options</button>
-                <div id="advanced-options" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                    <div style="margin-bottom: 0.75rem;">
-                        <label for="retirementContributions" style="display: block; margin-bottom: 0.5rem;">Pre-Tax Retirement Contributions (401k)</label>
-                        <input type="number" id="retirementContributions" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Federal Income Tax Calculator (2025)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- COMPILED TAILWIND CSS & CUSTOM STYLES --- */
+        /* This CSS is self-contained and will not conflict with your theme. */
+        :root { --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / .5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; }
+        *,:after,:before { box-sizing: border-box; border: 0 solid #e5e7eb; }
+        body { font-family: "Inter", sans-serif; background-color: #f9fafb; margin: 0; line-height: inherit; }
+        h1,h2,h3,p { margin: 0; }
+        button,select,input { font-family: inherit; font-size: 100%; margin: 0; padding: 0; line-height: inherit; color: inherit; }
+        button { text-transform: none; background-color: transparent; background-image: none; cursor: pointer; }
+        .hidden { display: none; }
+        .block { display: block; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .h-4 { height: 1rem; }
+        .h-5 { height: 1.25rem; }
+        .h-10 { height: 2.5rem; }
+        .h-12 { height: 3rem; }
+        .w-1\/2 { width: 50%; }
+        .w-4 { width: 1rem; }
+        .w-5 { width: 1.25rem; }
+        .w-full { width: 100%; }
+        .max-w-4xl { max-width: 56rem; }
+        .flex-grow { flex-grow: 1; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-8 { gap: 2rem; }
+        .rounded-lg { border-radius: .5rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-l-lg { border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; }
+        .rounded-r-lg { border-top-right-radius: .5rem; border-bottom-right-radius: .5rem; }
+        .border { border-width: 1px; }
+        .border-b { border-bottom-width: 1px; }
+        .border-r-0 { border-right-width: 0; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .bg-white { background-color: #fff; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+        .bg-blue-600 { background-color: #2563eb; }
+        .bg-green-100 { background-color: #dcfce7; }
+        .bg-red-100 { background-color: #fee2e2; }
+        .p-1 { padding: .25rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .px-3 { padding-left: .75rem; padding-right: .75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: .5rem; padding-bottom: .5rem; }
+        .pb-3 { padding-bottom: .75rem; }
+        .pt-4 { padding-top: 1rem; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-sm { font-size: .875rem; line-height: 1.25rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .text-white { color: #fff; }
+        .text-gray-500 { color: #6b7280; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-800 { color: #1f2937; }
+        .text-blue-600 { color: #2563eb; }
+        .text-green-600 { color: #16a34a; }
+        .text-green-800 { color: #166534; }
+        .text-green-900 { color: #14532d; }
+        .text-red-800 { color: #991b1b; }
+        .text-red-900 { color: #7f1d1d; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); }
+        .transition-colors { transition-property: color,background-color,border-color,text-decoration-color,fill,stroke; transition-timing-function: cubic-bezier(.4,0,.2,1); transition-duration: .15s; }
+        .hover\:bg-gray-300:hover { background-color: #d1d5db; }
+        .hover\:text-blue-700:hover { color: #1d4ed8; }
+        .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
+        .form-input:focus,.form-select:focus,.age-checkbox:focus{outline:none!important;box-shadow:0 0 0 2px #2563eb!important;border-color:#2563eb!important}.age-checkbox:focus{box-shadow:0 0 0 2px #2563eb!important}
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .mb-2 { margin-bottom: .5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .ml-3 { margin-left: .75rem; }
+        .ml-4 { margin-left: 1rem; }
+        .mt-1 { margin-top: .25rem; }
+        .mt-3 { margin-top: .75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mr-2 { margin-right: .5rem; }
+        .space-y-4 > :not([hidden]) ~ :not([hidden]) { --tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse)); }
+        .grid-cols-1 { grid-template-columns: repeat(1,minmax(0,1fr)); }
+        @media (min-width: 640px) { .sm\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; } }
+        @media (min-width: 1024px) { .lg\:grid-cols-2 { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+    </style>
+</head>
+<body>
+    <div class="p-4 sm:p-6 md:p-8">
+        <div class="w-full max-w-4xl mx-auto">
+            <!-- Header -->
+            <header class="mb-8 text-center">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Federal Income Tax Calculator</h1>
+                <p class="text-lg text-gray-600">Estimate your 2025 federal tax bill or refund.</p>
+            </header>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Input Form -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b border-gray-200 pb-3">Your Tax Details</h2>
+                    <div class="mb-4">
+                        <label for="filingStatus" class="block text-sm font-medium text-gray-700 mb-2">Filing Status</label>
+                        <select id="filingStatus" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-lg px-3 h-12">
+                            <option value="single">Single</option>
+                            <option value="marriedFilingJointly">Married Filing Jointly</option>
+                            <option value="headOfHousehold">Head of Household</option>
+                            <option value="marriedFilingSeparately">Married Filing Separately</option>
+                        </select>
                     </div>
-                    <div style="margin-bottom: 0.75rem;">
-                        <label for="taxesWithheld" style="display: block; margin-bottom: 0.5rem;">Federal Taxes Already Withheld</label>
-                        <input type="number" id="taxesWithheld" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                    <div class="mb-4">
+                        <label for="grossIncome" class="block text-sm font-medium text-gray-700 mb-2">Annual Gross Income</label>
+                        <div class="flex">
+                            <span class="flex items-center px-3 rounded-l-lg bg-gray-200 border border-r-0 border-gray-300 text-gray-600 h-12">$</span>
+                            <input type="number" id="grossIncome" value="100000" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-r-lg px-3 h-12" placeholder="100000">
+                        </div>
                     </div>
-                    <div>
-                        <label for="taxCredits" style="display: block; margin-bottom: 0.5rem;">Tax Credits</label>
-                        <input type="number" id="taxCredits" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                         <div>
+                            <label for="yourAge" class="block text-sm font-medium text-gray-700 mb-2">Your Age</label>
+                            <input type="number" id="yourAge" value="35" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-lg px-3 h-12">
+                        </div>
+                        <div id="spouse-age-container" style="display: none;">
+                            <label for="spouseAge" class="block text-sm font-medium text-gray-700 mb-2">Spouse's Age</label>
+                            <input type="number" id="spouseAge" value="35" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-lg px-3 h-12">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Deductions</label>
+                        <div class="flex bg-gray-200 rounded-lg p-1">
+                            <button id="deduction-standard-btn" class="w-1\/2 py-2 rounded-lg transition-colors text-sm font-semibold bg-blue-600 text-white">Standard</button>
+                            <button id="deduction-itemized-btn" class="w-1\/2 py-2 rounded-lg transition-colors text-sm font-semibold text-gray-600 hover:bg-gray-300">Itemized</button>
+                        </div>
+                        <div id="itemized-deductions-container" class="mt-3 hidden">
+                            <label for="itemizedDeductions" class="block text-sm font-medium text-gray-600 mb-2">Itemized Deduction Amount</label>
+                            <div class="flex">
+                                <span class="flex items-center px-3 rounded-l-lg bg-gray-200 border border-r-0 border-gray-300 text-gray-600 h-12">$</span>
+                                <input type="number" id="itemizedDeductions" value="0" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-r-lg px-3 h-12">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <button id="toggle-advanced-btn" class="w-full text-left text-blue-600 font-semibold hover:text-blue-700 transition-colors">Show Advanced Options</button>
+                        <div id="advanced-options" class="hidden mt-4 space-y-4 pt-4 border-t border-gray-200">
+                            <div>
+                                <label for="retirementContributions" class="block text-sm font-medium text-gray-700 mb-2">Pre-Tax Retirement Contributions (401k)</label>
+                                <div class="flex">
+                                    <span class="flex items-center px-3 rounded-l-lg bg-gray-200 border border-r-0 border-gray-300 text-gray-600 h-12">$</span>
+                                    <input type="number" id="retirementContributions" value="0" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-r-lg px-3 h-12">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="taxesWithheld" class="block text-sm font-medium text-gray-700 mb-2">Federal Taxes Already Withheld</label>
+                                <div class="flex">
+                                    <span class="flex items-center px-3 rounded-l-lg bg-gray-200 border border-r-0 border-gray-300 text-gray-600 h-12">$</span>
+                                    <input type="number" id="taxesWithheld" value="0" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-r-lg px-3 h-12">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="taxCredits" class="block text-sm font-medium text-gray-700 mb-2">Tax Credits</label>
+                                <div class="flex">
+                                    <span class="flex items-center px-3 rounded-l-lg bg-gray-200 border border-r-0 border-gray-300 text-gray-600 h-12">$</span>
+                                    <input type="number" id="taxCredits" value="0" class="w-full bg-gray-100 text-gray-800 border-gray-300 rounded-r-lg px-3 h-12">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Results Display Column -->
-        <div id="calculator-results" style="flex: 1; min-width: 320px; background-color: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); border: 1px solid #e5e7eb;">
-            <h2>Your Estimated Tax Breakdown</h2>
-            <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;"></div>
-            
-            <div style="margin-bottom: 1.5rem;">
-                <h3>Taxable Income</h3>
-                <div id="result-gross-income"></div>
-                <div id="result-total-deductions"></div>
-                <p id="standard-deduction-subtext" style="text-align: right; font-size: 0.75rem; color: #6b7280; margin-top: -0.25rem;"></p>
-                <div id="result-taxable-income"></div>
-            </div>
-
-            <div style="margin-bottom: 1.5rem;">
-                <h3>Estimated Federal Taxes</h3>
-                <div id="result-tax-liability"></div>
-                <div id="result-withheld"></div>
-                <div id="result-credits"></div>
-            </div>
-
-            <div id="final-result-box" style="padding: 1rem; border-radius: 0.5rem; text-align: center;">
-                <p id="final-result-label"></p>
-                <p id="final-result-value" style="font-size: 2.25rem; font-weight: 700;"></p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; text-align: center;">
-                <div>
-                    <p>Effective Tax Rate</p>
-                    <p id="effective-tax-rate" style="font-size: 1.25rem; font-weight: 600;"></p>
-                </div>
-                <div>
-                    <p>Marginal Tax Rate</p>
-                    <p id="marginal-tax-rate" style="font-size: 1.25rem; font-weight: 600;"></p>
+                <!-- Results Display -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-3 flex-grow">Your Estimated Tax Breakdown</h2>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-blue-600 mb-2">Taxable Income</h3>
+                            <div id="result-gross-income"></div>
+                            <div id="result-total-deductions"></div>
+                            <p id="standard-deduction-subtext" class="text-right text-xs text-gray-500 -mt-1 pr-1"></p>
+                            <div id="result-taxable-income"></div>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-blue-600 mb-2">Estimated Federal Taxes</h3>
+                            <div id="result-tax-liability"></div>
+                            <div id="result-withheld"></div>
+                            <div id="result-credits"></div>
+                        </div>
+                    </div>
+                    <div id="final-result-box" class="p-4 rounded-lg text-center">
+                        <p id="final-result-label" class="text-lg font-medium"></p>
+                        <p id="final-result-value" class="text-4xl font-bold text-gray-800"></p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                        <div>
+                            <p class="text-sm text-gray-500">Effective Tax Rate</p>
+                            <p id="effective-tax-rate" class="text-xl font-semibold text-gray-800">0.00%</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Marginal Tax Rate</p>
+                            <p id="marginal-tax-rate" class="text-xl font-semibold text-gray-800">0%</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const inputs = { 
-            filingStatus: document.getElementById("filingStatus"), 
-            grossIncome: document.getElementById("grossIncome"), 
-            yourAge: document.getElementById("yourAge"),
-            spouseAge: document.getElementById("spouseAge"),
-            itemizedDeductions: document.getElementById("itemizedDeductions"), 
-            retirementContributions: document.getElementById("retirementContributions"), 
-            taxesWithheld: document.getElementById("taxesWithheld"), 
-            taxCredits: document.getElementById("taxCredits"), 
-        };
-        const buttons = { 
-            deductionStandard: document.getElementById("deduction-standard-btn"), 
-            deductionItemized: document.getElementById("deduction-itemized-btn"), 
-            toggleAdvanced: document.getElementById("toggle-advanced-btn"), 
-        };
-        const containers = { 
-            itemizedDeductions: document.getElementById("itemized-deductions-container"), 
-            advancedOptions: document.getElementById("advanced-options"), 
-            calculatorWrapper: document.getElementById("tax-calculator-wrapper"),
-            spouseAge: document.getElementById("spouse-age-container"),
-        };
-        const results = { grossIncome: document.getElementById("result-gross-income"), totalDeductions: document.getElementById("result-total-deductions"), standardDeductionSubtext: document.getElementById("standard-deduction-subtext"), taxableIncome: document.getElementById("result-taxable-income"), taxLiability: document.getElementById("result-tax-liability"), withheld: document.getElementById("result-withheld"), credits: document.getElementById("result-credits"), finalBox: document.getElementById("final-result-box"), finalLabel: document.getElementById("final-result-label"), finalValue: document.getElementById("final-result-value"), effectiveRate: document.getElementById("effective-tax-rate"), marginalRate: document.getElementById("marginal-tax-rate"), };
-        
-        let deductionType = "standard";
-        let showAdvanced = false;
-
-        const taxData2025 = { 
-            standardDeduction: { 
-                single: 15000, 
-                marriedFilingJointly: 30000, 
-                marriedFilingSeparately: 15000, 
-                headOfHousehold: 22500 
-            },
-            bonusDeduction: {
-                single: 6750,
-                married: 13500,
-                singleThreshold: 75000,
-                marriedThreshold: 150000
-            },
-            taxBrackets: { 
-                single: [
-                    { rate: 0.10, min: 0, max: 11925 }, 
-                    { rate: 0.12, min: 11925, max: 48475 }, 
-                    { rate: 0.22, min: 48475, max: 103350 }, 
-                    { rate: 0.24, min: 103350, max: 197300 }, 
-                    { rate: 0.32, min: 197300, max: 250525 }, 
-                    { rate: 0.35, min: 250525, max: 626350 }, 
-                    { rate: 0.37, min: 626350, max: Infinity }
-                ], 
-                marriedFilingJointly: [
-                    { rate: 0.10, min: 0, max: 23850 }, 
-                    { rate: 0.12, min: 23850, max: 96950 }, 
-                    { rate: 0.22, min: 96950, max: 206700 }, 
-                    { rate: 0.24, min: 206700, max: 394600 }, 
-                    { rate: 0.32, min: 394600, max: 501050 }, 
-                    { rate: 0.35, min: 501050, max: 751600 }, 
-                    { rate: 0.37, min: 751600, max: Infinity }
-                ], 
-                marriedFilingSeparately: [
-                    { rate: 0.10, min: 0, max: 11925 }, 
-                    { rate: 0.12, min: 11925, max: 48475 }, 
-                    { rate: 0.22, min: 48475, max: 103350 }, 
-                    { rate: 0.24, min: 103350, max: 197300 }, 
-                    { rate: 0.32, min: 197300, max: 250525 }, 
-                    { rate: 0.35, min: 250525, max: 375800 }, 
-                    { rate: 0.37, min: 375800, max: Infinity }
-                ], 
-                headOfHousehold: [
-                    { rate: 0.10, min: 0, max: 17000 }, 
-                    { rate: 0.12, min: 17000, max: 64850 }, 
-                    { rate: 0.22, min: 64850, max: 103350 }, 
-                    { rate: 0.24, min: 103350, max: 197300 }, 
-                    { rate: 0.32, min: 197300, max: 250500 }, 
-                    { rate: 0.35, min: 250500, max: 626350 }, 
-                    { rate: 0.37, min: 626350, max: Infinity }
-                ] 
-            } 
-        };
-        
-        const formatCurrency = (value) => Math.abs(value).toLocaleString("en-US", { style: "currency", currency: "USD" });
-        const createResultRow = (label, value, { isNegative = false, isTotal = false } = {}) => { const sign = isNegative ? "-" : ""; return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; ${isTotal ? "border-top: 1px solid #d1d5db; margin-top: 0.5rem; padding-top: 0.75rem; font-weight: 700;" : ""}"><p>${label}</p><p>${sign}${formatCurrency(value)}</p></div>`; };
-        
-        const calculateAndRender = () => { 
-            const filingStatus = inputs.filingStatus.value; 
-            const grossIncome = Number(inputs.grossIncome.value) || 0; 
-            const yourAge = Number(inputs.yourAge.value) || 0;
-            const spouseAge = Number(inputs.spouseAge.value) || 0;
-            const itemizedDeductions = Number(inputs.itemizedDeductions.value) || 0; 
-            const retirementContributions = Number(inputs.retirementContributions.value) || 0; 
-            const taxesWithheld = Number(inputs.taxesWithheld.value) || 0; 
-            const taxCredits = Number(inputs.taxCredits.value) || 0; 
-
-            containers.spouseAge.style.display = filingStatus === 'marriedFilingJointly' ? 'block' : 'none';
-
-            let currentStandardDeduction = taxData2025.standardDeduction[filingStatus]; 
-            
-            let bonusDeduction = 0;
-            if (filingStatus === 'single' || filingStatus === 'headOfHousehold') {
-                if (yourAge >= 65 && grossIncome < taxData2025.bonusDeduction.singleThreshold) {
-                    bonusDeduction = taxData2025.bonusDeduction.single;
-                }
-            } else if (filingStatus === 'marriedFilingJointly') {
-                if (grossIncome < taxData2025.bonusDeduction.marriedThreshold) {
-                    if (yourAge >= 65 && spouseAge >= 65) {
-                        bonusDeduction = taxData2025.bonusDeduction.married;
-                    } else if (yourAge >= 65 || spouseAge >= 65) {
-                        bonusDeduction = taxData2025.bonusDeduction.single;
-                    }
-                }
-            }
-            else if (filingStatus === 'marriedFilingSeparately' && yourAge >= 65 && grossIncome < taxData2025.bonusDeduction.singleThreshold) {
-                 bonusDeduction = taxData2025.bonusDeduction.single;
-            }
-
-            currentStandardDeduction += bonusDeduction;
-
-            const totalDeductions = (deductionType === "standard" ? currentStandardDeduction : itemizedDeductions) + retirementContributions; 
-            const taxableIncome = Math.max(0, grossIncome - totalDeductions); 
-            const brackets = taxData2025.taxBrackets[filingStatus]; 
-            let taxLiability = 0; 
-            let remainingIncome = taxableIncome; 
-            let marginalTaxRate = 0; 
-            for (const bracket of brackets) { if (remainingIncome <= 0) break; const incomeInBracket = Math.min(remainingIncome, bracket.max - bracket.min); taxLiability += incomeInBracket * bracket.rate; remainingIncome -= incomeInBracket; if (incomeInBracket > 0) marginalTaxRate = bracket.rate; } 
-            const finalTaxesOwed = taxLiability - taxesWithheld - taxCredits; 
-            const effectiveTaxRate = grossIncome > 0 ? (taxLiability / grossIncome) * 100 : 0; 
-            const isRefund = finalTaxesOwed < 0; 
-            
-            results.grossIncome.innerHTML = createResultRow("Gross Income", grossIncome); 
-            results.totalDeductions.innerHTML = createResultRow("Total Deductions", totalDeductions, { isNegative: true }); 
-            results.standardDeductionSubtext.textContent = deductionType === "standard" ? `Your standard deduction: ${formatCurrency(currentStandardDeduction)}` : ""; 
-            results.taxableIncome.innerHTML = createResultRow("Taxable Income", taxableIncome, { isTotal: true }); 
-            results.taxLiability.innerHTML = createResultRow("Taxes Before Adjustments", taxLiability); 
-            results.withheld.innerHTML = createResultRow("Taxes Withheld", taxesWithheld, { isNegative: true }); 
-            results.credits.innerHTML = createResultRow("Tax Credits", taxCredits, { isNegative: true }); 
-            results.finalLabel.textContent = isRefund ? "Estimated Refund" : "Estimated Taxes Owed"; 
-            results.finalValue.textContent = formatCurrency(finalTaxesOwed); 
-            results.finalBox.style.backgroundColor = isRefund ? "#dcfce7" : "#fee2e2"; 
-            results.finalLabel.style.color = isRefund ? "#166534" : "#991b1b"; 
-            results.finalValue.style.color = isRefund ? "#14532d" : "#7f1d1d"; 
-            results.effectiveRate.textContent = `${effectiveTaxRate.toFixed(2)}%`; 
-            results.marginalRate.textContent = `${(marginalTaxRate * 100).toFixed(0)}%`; 
-        };
-        
-        Object.values(inputs).forEach(input => input.addEventListener("input", calculateAndRender));
-        buttons.deductionStandard.addEventListener("click", () => { deductionType = "standard"; buttons.deductionStandard.style.backgroundColor = "#2563eb"; buttons.deductionStandard.style.color = "#fff"; buttons.deductionItemized.style.backgroundColor = "transparent"; buttons.deductionItemized.style.color = "#4b5563"; containers.itemizedDeductions.style.display = "none"; calculateAndRender(); });
-        buttons.deductionItemized.addEventListener("click", () => { deductionType = "itemized"; buttons.deductionItemized.style.backgroundColor = "#2563eb"; buttons.deductionItemized.style.color = "#fff"; buttons.deductionStandard.style.backgroundColor = "transparent"; buttons.deductionStandard.style.color = "#4b5563"; containers.itemizedDeductions.style.display = "block"; calculateAndRender(); });
-        buttons.toggleAdvanced.addEventListener("click", () => { showAdvanced = !showAdvanced; containers.advancedOptions.style.display = showAdvanced ? "block" : "none"; buttons.toggleAdvanced.textContent = showAdvanced ? "Hide Advanced Options" : "Show Advanced Options"; });
-        
-        calculateAndRender();
-    });
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded",()=>{const e={filingStatus:document.getElementById("filingStatus"),grossIncome:document.getElementById("grossIncome"),yourAge:document.getElementById("yourAge"),spouseAge:document.getElementById("spouseAge"),itemizedDeductions:document.getElementById("itemizedDeductions"),retirementContributions:document.getElementById("retirementContributions"),taxesWithheld:document.getElementById("taxesWithheld"),taxCredits:document.getElementById("taxCredits")},t={deductionStandard:document.getElementById("deduction-standard-btn"),deductionItemized:document.getElementById("deduction-itemized-btn"),toggleAdvanced:document.getElementById("toggle-advanced-btn")},n={itemizedDeductions:document.getElementById("itemized-deductions-container"),advancedOptions:document.getElementById("advanced-options"),spouseAge:document.getElementById("spouse-age-container")},o={grossIncome:document.getElementById("result-gross-income"),totalDeductions:document.getElementById("result-total-deductions"),standardDeductionSubtext:document.getElementById("standard-deduction-subtext"),taxableIncome:document.getElementById("result-taxable-income"),taxLiability:document.getElementById("result-tax-liability"),withheld:document.getElementById("result-withheld"),credits:document.getElementById("result-credits"),finalBox:document.getElementById("final-result-box"),finalLabel:document.getElementById("final-result-label"),finalValue:document.getElementById("final-result-value"),effectiveRate:document.getElementById("effective-tax-rate"),marginalRate:document.getElementById("marginal-tax-rate")};let a="standard",d=!1;const i={standardDeduction:{single:15e3,marriedFilingJointly:3e4,marriedFilingSeparately:15e3,headOfHousehold:22500},bonusDeduction:{single:6750,married:13500,singleThreshold:75e3,marriedThreshold:15e4},taxBrackets:{single:[{rate:.1,min:0,max:11925},{rate:.12,min:11925,max:48475},{rate:.22,min:48475,max:103350},{rate:.24,min:103350,max:197300},{rate:.32,min:197300,max:250525},{rate:.35,min:250525,max:626350},{rate:.37,min:626350,max:1/0}],marriedFilingJointly:[{rate:.1,min:0,max:23850},{rate:.12,min:23850,max:96950},{rate:.22,min:96950,max:206700},{rate:.24,min:206700,max:394600},{rate:.32,min:394600,max:501050},{rate:.35,min:501050,max:751600},{rate:.37,min:751600,max:1/0}],marriedFilingSeparately:[{rate:.1,min:0,max:11925},{rate:.12,min:11925,max:48475},{rate:.22,min:48475,max:103350},{rate:.24,min:103350,max:197300},{rate:.32,min:197300,max:250525},{rate:.35,min:250525,max:375800},{rate:.37,min:375800,max:1/0}],headOfHousehold:[{rate:.1,min:0,max:17e3},{rate:.12,min:17e3,max:64850},{rate:.22,min:64850,max:103350},{rate:.24,min:103350,max:197300},{rate:.32,min:197300,max:250500},{rate:.35,min:250500,max:626350},{rate:.37,min:626350,max:1/0}]}},s=e=>Math.abs(e).toLocaleString("en-US",{style:"currency",currency:"USD"}),r=(e,t,{isNegative:n=!1,isTotal:a=!1}={})=>{const d=n?"-":"";return`<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; ${a?"border-top: 1px solid #d1d5db; margin-top: 0.5rem; padding-top: 0.75rem; font-weight: 700;":""}"><p>${e}</p><p>${d}${s(t)}</p></div>`},l=()=>{const l=e.filingStatus.value,c=Number(e.grossIncome.value)||0,u=Number(e.yourAge.value)||0,m=Number(e.spouseAge.value)||0,p=Number(e.itemizedDeductions.value)||0,h=Number(e.retirementContributions.value)||0,f=Number(e.taxesWithheld.value)||0,g=Number(e.taxCredits.value)||0;n.spouseAge.style.display="marriedFilingJointly"===l?"block":"none";let b=i.standardDeduction[l];let x=0;"single"===l||"headOfHousehold"===l?u>=65&&c<i.bonusDeduction.singleThreshold&&(x=i.bonusDeduction.single):"marriedFilingJointly"===l?c<i.bonusDeduction.marriedThreshold&&(u>=65&&m>=65?x=i.bonusDeduction.married:u>=65||m>=65&&(x=i.bonusDeduction.single)):"marriedFilingSeparately"===l&&u>=65&&c<i.bonusDeduction.singleThreshold&&(x=i.bonusDeduction.single),b+=x;const y=("standard"===a?b:p)+h,v=Math.max(0,c-y),k=i.taxBrackets[l];let w=0,I=v,L=0;for(const A of k){if(I<=0)break;const S=Math.min(I,A.max-A.min);w+=S*A.rate,I-=S,S>0&&(L=A.rate)}const C=w-f-g,E=c>0?w/c*100:0,z=C<0;o.grossIncome.innerHTML=r("Gross Income",c),o.totalDeductions.innerHTML=r("Total Deductions",y,{isNegative:!0}),o.standardDeductionSubtext.textContent="standard"===a?`Your standard deduction: ${s(b)}`:"",o.taxableIncome.innerHTML=r("Taxable Income",v,{isTotal:!0}),o.taxLiability.innerHTML=r("Taxes Before Adjustments",w),o.withheld.innerHTML=r("Taxes Withheld",f,{isNegative:!0}),o.credits.innerHTML=r("Tax Credits",g,{isNegative:!0}),o.finalLabel.textContent=z?"Estimated Refund":"Estimated Taxes Owed",o.finalValue.textContent=s(C),o.finalBox.style.backgroundColor=z?"#dcfce7":"#fee2e2",o.finalLabel.style.color=z?"#166534":"#991b1b",o.finalValue.style.color=z?"#14532d":"#7f1d1d",o.effectiveRate.textContent=`${E.toFixed(2)}%`,o.marginalRate.textContent=`${(100*L).toFixed(0)}%`};Object.values(e).forEach(e=>{e.addEventListener("input",l)}),t.deductionStandard.addEventListener("click",()=>{a="standard",t.deductionStandard.style.backgroundColor="#2563eb",t.deductionStandard.style.color="#fff",t.deductionItemized.style.backgroundColor="transparent",t.deductionItemized.style.color="#4b5563",n.itemizedDeductions.style.display="none",l()}),t.deductionItemized.addEventListener("click",()=>{a="itemized",t.deductionItemized.style.backgroundColor="#2563eb",t.deductionItemized.style.color="#fff",t.deductionStandard.style.backgroundColor="transparent",t.deductionStandard.style.color="#4b5563",n.itemizedDeductions.style.display="block",l()}),t.toggleAdvanced.addEventListener("click",()=>{d=!d,n.advancedOptions.style.display=d?"block":"none",t.toggleAdvanced.textContent=d?"Hide Advanced Options":"Show Advanced Options"}),l()});
+    </script>
+</body>
+</html>
