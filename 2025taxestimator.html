@@ -1,0 +1,267 @@
+<!-- 
+  INSTRUCTIONS:
+  1. Paste this entire block of code into a Custom HTML block on your WordPress page.
+  2. This version uses a more compact, flexible layout and has the corrected 2025 tax brackets.
+-->
+<div id="tax-calculator-wrapper">
+    <header style="text-align: center; margin-bottom: 2rem;">
+        <h1>Federal Income Tax Calculator</h1>
+        <p>Estimate your 2025 federal tax bill or refund.</p>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+        <!-- Input Form Column -->
+        <div id="calculator-inputs" style="flex: 1; min-width: 320px; background-color: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); border: 1px solid #e5e7eb;">
+            <h2>Your Tax Details</h2>
+            <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;"></div>
+
+            <div style="margin-bottom: 0.75rem;">
+                <label for="filingStatus" style="display: block; margin-bottom: 0.5rem;">Filing Status</label>
+                <select id="filingStatus" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                    <option value="single">Single</option>
+                    <option value="marriedFilingJointly">Married Filing Jointly</option>
+                    <option value="headOfHousehold">Head of Household</option>
+                    <option value="marriedFilingSeparately">Married Filing Separately</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 0.75rem;">
+                <label for="grossIncome" style="display: block; margin-bottom: 0.5rem;">Annual Gross Income</label>
+                <input type="number" id="grossIncome" value="100000" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.75rem;">
+                <div>
+                    <label for="yourAge" style="display: block; margin-bottom: 0.5rem;">Your Age</label>
+                    <input type="number" id="yourAge" value="35" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                </div>
+                <div id="spouse-age-container" style="display: none;">
+                    <label for="spouseAge" style="display: block; margin-bottom: 0.5rem;">Spouse's Age</label>
+                    <input type="number" id="spouseAge" value="35" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                </div>
+            </div>
+
+
+            <div style="margin-bottom: 0.75rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">Deductions</label>
+                <div style="display: flex; background-color: #e5e7eb; border-radius: 0.5rem; padding: 0.25rem;">
+                    <button id="deduction-standard-btn" style="width: 50%; padding: 0.5rem 0; border-radius: 0.5rem; background-color: #2563eb; color: #fff; border: none; cursor: pointer;">Standard</button>
+                    <button id="deduction-itemized-btn" style="width: 50%; padding: 0.5rem 0; border-radius: 0.5rem; background-color: transparent; color: #4b5563; border: none; cursor: pointer;">Itemized</button>
+                </div>
+                <div id="itemized-deductions-container" style="display: none; margin-top: 0.75rem;">
+                    <label for="itemizedDeductions" style="display: block; margin-bottom: 0.5rem;">Itemized Deduction Amount</label>
+                    <input type="number" id="itemizedDeductions" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <button id="toggle-advanced-btn" style="width: 100%; text-align: left; color: #2563eb; font-weight: 600; background: none; border: none; cursor: pointer;">Show Advanced Options</button>
+                <div id="advanced-options" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                    <div style="margin-bottom: 0.75rem;">
+                        <label for="retirementContributions" style="display: block; margin-bottom: 0.5rem;">Pre-Tax Retirement Contributions (401k)</label>
+                        <input type="number" id="retirementContributions" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                    </div>
+                    <div style="margin-bottom: 0.75rem;">
+                        <label for="taxesWithheld" style="display: block; margin-bottom: 0.5rem;">Federal Taxes Already Withheld</label>
+                        <input type="number" id="taxesWithheld" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                    </div>
+                    <div>
+                        <label for="taxCredits" style="display: block; margin-bottom: 0.5rem;">Tax Credits</label>
+                        <input type="number" id="taxCredits" value="0" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #d1d5db;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Display Column -->
+        <div id="calculator-results" style="flex: 1; min-width: 320px; background-color: #fff; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1); border: 1px solid #e5e7eb;">
+            <h2>Your Estimated Tax Breakdown</h2>
+            <div style="margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;"></div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <h3>Taxable Income</h3>
+                <div id="result-gross-income"></div>
+                <div id="result-total-deductions"></div>
+                <p id="standard-deduction-subtext" style="text-align: right; font-size: 0.75rem; color: #6b7280; margin-top: -0.25rem;"></p>
+                <div id="result-taxable-income"></div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h3>Estimated Federal Taxes</h3>
+                <div id="result-tax-liability"></div>
+                <div id="result-withheld"></div>
+                <div id="result-credits"></div>
+            </div>
+
+            <div id="final-result-box" style="padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                <p id="final-result-label"></p>
+                <p id="final-result-value" style="font-size: 2.25rem; font-weight: 700;"></p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; text-align: center;">
+                <div>
+                    <p>Effective Tax Rate</p>
+                    <p id="effective-tax-rate" style="font-size: 1.25rem; font-weight: 600;"></p>
+                </div>
+                <div>
+                    <p>Marginal Tax Rate</p>
+                    <p id="marginal-tax-rate" style="font-size: 1.25rem; font-weight: 600;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const inputs = { 
+            filingStatus: document.getElementById("filingStatus"), 
+            grossIncome: document.getElementById("grossIncome"), 
+            yourAge: document.getElementById("yourAge"),
+            spouseAge: document.getElementById("spouseAge"),
+            itemizedDeductions: document.getElementById("itemizedDeductions"), 
+            retirementContributions: document.getElementById("retirementContributions"), 
+            taxesWithheld: document.getElementById("taxesWithheld"), 
+            taxCredits: document.getElementById("taxCredits"), 
+        };
+        const buttons = { 
+            deductionStandard: document.getElementById("deduction-standard-btn"), 
+            deductionItemized: document.getElementById("deduction-itemized-btn"), 
+            toggleAdvanced: document.getElementById("toggle-advanced-btn"), 
+        };
+        const containers = { 
+            itemizedDeductions: document.getElementById("itemized-deductions-container"), 
+            advancedOptions: document.getElementById("advanced-options"), 
+            calculatorWrapper: document.getElementById("tax-calculator-wrapper"),
+            spouseAge: document.getElementById("spouse-age-container"),
+        };
+        const results = { grossIncome: document.getElementById("result-gross-income"), totalDeductions: document.getElementById("result-total-deductions"), standardDeductionSubtext: document.getElementById("standard-deduction-subtext"), taxableIncome: document.getElementById("result-taxable-income"), taxLiability: document.getElementById("result-tax-liability"), withheld: document.getElementById("result-withheld"), credits: document.getElementById("result-credits"), finalBox: document.getElementById("final-result-box"), finalLabel: document.getElementById("final-result-label"), finalValue: document.getElementById("final-result-value"), effectiveRate: document.getElementById("effective-tax-rate"), marginalRate: document.getElementById("marginal-tax-rate"), };
+        
+        let deductionType = "standard";
+        let showAdvanced = false;
+
+        const taxData2025 = { 
+            standardDeduction: { 
+                single: 15000, 
+                marriedFilingJointly: 30000, 
+                marriedFilingSeparately: 15000, 
+                headOfHousehold: 22500 
+            },
+            bonusDeduction: {
+                single: 6750,
+                married: 13500,
+                singleThreshold: 75000,
+                marriedThreshold: 150000
+            },
+            taxBrackets: { 
+                single: [
+                    { rate: 0.10, min: 0, max: 11925 }, 
+                    { rate: 0.12, min: 11925, max: 48475 }, 
+                    { rate: 0.22, min: 48475, max: 103350 }, 
+                    { rate: 0.24, min: 103350, max: 197300 }, 
+                    { rate: 0.32, min: 197300, max: 250525 }, 
+                    { rate: 0.35, min: 250525, max: 626350 }, 
+                    { rate: 0.37, min: 626350, max: Infinity }
+                ], 
+                marriedFilingJointly: [
+                    { rate: 0.10, min: 0, max: 23850 }, 
+                    { rate: 0.12, min: 23850, max: 96950 }, 
+                    { rate: 0.22, min: 96950, max: 206700 }, 
+                    { rate: 0.24, min: 206700, max: 394600 }, 
+                    { rate: 0.32, min: 394600, max: 501050 }, 
+                    { rate: 0.35, min: 501050, max: 751600 }, 
+                    { rate: 0.37, min: 751600, max: Infinity }
+                ], 
+                marriedFilingSeparately: [
+                    { rate: 0.10, min: 0, max: 11925 }, 
+                    { rate: 0.12, min: 11925, max: 48475 }, 
+                    { rate: 0.22, min: 48475, max: 103350 }, 
+                    { rate: 0.24, min: 103350, max: 197300 }, 
+                    { rate: 0.32, min: 197300, max: 250525 }, 
+                    { rate: 0.35, min: 250525, max: 375800 }, 
+                    { rate: 0.37, min: 375800, max: Infinity }
+                ], 
+                headOfHousehold: [
+                    { rate: 0.10, min: 0, max: 17000 }, 
+                    { rate: 0.12, min: 17000, max: 64850 }, 
+                    { rate: 0.22, min: 64850, max: 103350 }, 
+                    { rate: 0.24, min: 103350, max: 197300 }, 
+                    { rate: 0.32, min: 197300, max: 250500 }, 
+                    { rate: 0.35, min: 250500, max: 626350 }, 
+                    { rate: 0.37, min: 626350, max: Infinity }
+                ] 
+            } 
+        };
+        
+        const formatCurrency = (value) => Math.abs(value).toLocaleString("en-US", { style: "currency", currency: "USD" });
+        const createResultRow = (label, value, { isNegative = false, isTotal = false } = {}) => { const sign = isNegative ? "-" : ""; return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; ${isTotal ? "border-top: 1px solid #d1d5db; margin-top: 0.5rem; padding-top: 0.75rem; font-weight: 700;" : ""}"><p>${label}</p><p>${sign}${formatCurrency(value)}</p></div>`; };
+        
+        const calculateAndRender = () => { 
+            const filingStatus = inputs.filingStatus.value; 
+            const grossIncome = Number(inputs.grossIncome.value) || 0; 
+            const yourAge = Number(inputs.yourAge.value) || 0;
+            const spouseAge = Number(inputs.spouseAge.value) || 0;
+            const itemizedDeductions = Number(inputs.itemizedDeductions.value) || 0; 
+            const retirementContributions = Number(inputs.retirementContributions.value) || 0; 
+            const taxesWithheld = Number(inputs.taxesWithheld.value) || 0; 
+            const taxCredits = Number(inputs.taxCredits.value) || 0; 
+
+            containers.spouseAge.style.display = filingStatus === 'marriedFilingJointly' ? 'block' : 'none';
+
+            let currentStandardDeduction = taxData2025.standardDeduction[filingStatus]; 
+            
+            let bonusDeduction = 0;
+            if (filingStatus === 'single' || filingStatus === 'headOfHousehold') {
+                if (yourAge >= 65 && grossIncome < taxData2025.bonusDeduction.singleThreshold) {
+                    bonusDeduction = taxData2025.bonusDeduction.single;
+                }
+            } else if (filingStatus === 'marriedFilingJointly') {
+                if (grossIncome < taxData2025.bonusDeduction.marriedThreshold) {
+                    if (yourAge >= 65 && spouseAge >= 65) {
+                        bonusDeduction = taxData2025.bonusDeduction.married;
+                    } else if (yourAge >= 65 || spouseAge >= 65) {
+                        bonusDeduction = taxData2025.bonusDeduction.single;
+                    }
+                }
+            }
+            else if (filingStatus === 'marriedFilingSeparately' && yourAge >= 65 && grossIncome < taxData2025.bonusDeduction.singleThreshold) {
+                 bonusDeduction = taxData2025.bonusDeduction.single;
+            }
+
+            currentStandardDeduction += bonusDeduction;
+
+            const totalDeductions = (deductionType === "standard" ? currentStandardDeduction : itemizedDeductions) + retirementContributions; 
+            const taxableIncome = Math.max(0, grossIncome - totalDeductions); 
+            const brackets = taxData2025.taxBrackets[filingStatus]; 
+            let taxLiability = 0; 
+            let remainingIncome = taxableIncome; 
+            let marginalTaxRate = 0; 
+            for (const bracket of brackets) { if (remainingIncome <= 0) break; const incomeInBracket = Math.min(remainingIncome, bracket.max - bracket.min); taxLiability += incomeInBracket * bracket.rate; remainingIncome -= incomeInBracket; if (incomeInBracket > 0) marginalTaxRate = bracket.rate; } 
+            const finalTaxesOwed = taxLiability - taxesWithheld - taxCredits; 
+            const effectiveTaxRate = grossIncome > 0 ? (taxLiability / grossIncome) * 100 : 0; 
+            const isRefund = finalTaxesOwed < 0; 
+            
+            results.grossIncome.innerHTML = createResultRow("Gross Income", grossIncome); 
+            results.totalDeductions.innerHTML = createResultRow("Total Deductions", totalDeductions, { isNegative: true }); 
+            results.standardDeductionSubtext.textContent = deductionType === "standard" ? `Your standard deduction: ${formatCurrency(currentStandardDeduction)}` : ""; 
+            results.taxableIncome.innerHTML = createResultRow("Taxable Income", taxableIncome, { isTotal: true }); 
+            results.taxLiability.innerHTML = createResultRow("Taxes Before Adjustments", taxLiability); 
+            results.withheld.innerHTML = createResultRow("Taxes Withheld", taxesWithheld, { isNegative: true }); 
+            results.credits.innerHTML = createResultRow("Tax Credits", taxCredits, { isNegative: true }); 
+            results.finalLabel.textContent = isRefund ? "Estimated Refund" : "Estimated Taxes Owed"; 
+            results.finalValue.textContent = formatCurrency(finalTaxesOwed); 
+            results.finalBox.style.backgroundColor = isRefund ? "#dcfce7" : "#fee2e2"; 
+            results.finalLabel.style.color = isRefund ? "#166534" : "#991b1b"; 
+            results.finalValue.style.color = isRefund ? "#14532d" : "#7f1d1d"; 
+            results.effectiveRate.textContent = `${effectiveTaxRate.toFixed(2)}%`; 
+            results.marginalRate.textContent = `${(marginalTaxRate * 100).toFixed(0)}%`; 
+        };
+        
+        Object.values(inputs).forEach(input => input.addEventListener("input", calculateAndRender));
+        buttons.deductionStandard.addEventListener("click", () => { deductionType = "standard"; buttons.deductionStandard.style.backgroundColor = "#2563eb"; buttons.deductionStandard.style.color = "#fff"; buttons.deductionItemized.style.backgroundColor = "transparent"; buttons.deductionItemized.style.color = "#4b5563"; containers.itemizedDeductions.style.display = "none"; calculateAndRender(); });
+        buttons.deductionItemized.addEventListener("click", () => { deductionType = "itemized"; buttons.deductionItemized.style.backgroundColor = "#2563eb"; buttons.deductionItemized.style.color = "#fff"; buttons.deductionStandard.style.backgroundColor = "transparent"; buttons.deductionStandard.style.color = "#4b5563"; containers.itemizedDeductions.style.display = "block"; calculateAndRender(); });
+        buttons.toggleAdvanced.addEventListener("click", () => { showAdvanced = !showAdvanced; containers.advancedOptions.style.display = showAdvanced ? "block" : "none"; buttons.toggleAdvanced.textContent = showAdvanced ? "Hide Advanced Options" : "Show Advanced Options"; });
+        
+        calculateAndRender();
+    });
+</script>
