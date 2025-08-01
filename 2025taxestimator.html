@@ -17,8 +17,6 @@
             --light-gray-2: #EEEEF1;
             --primary-bg: #FDFDFD;
             --secondary-bg: #FFFFFF;
-            --green-cta: #69C569; /* Kept for potential future use */
-            --red-alert: #EE5253; /* Kept for potential future use */
             --user-editable-green: #E2FFE2;
             
             font-family: "Roboto", sans-serif; 
@@ -178,6 +176,16 @@
             padding-top: 0.75rem;
             font-weight: 700;
         }
+        #tax-calculator-root .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #tax-calculator-root .checkbox-group input {
+            height: 1rem;
+            width: 1rem;
+            margin-right: 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -217,16 +225,16 @@
                                 <input type="number" id="grossIncome" value="100000">
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                             <div>
-                                <label for="yourAge">Your Age</label>
-                                <input type="number" id="yourAge" value="35">
-                            </div>
-                            <div id="spouse-age-container" style="display: none;">
-                                <label for="spouseAge">Spouse's Age</label>
-                                <input type="number" id="spouseAge" value="35">
-                            </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="your-age-checkbox">
+                            <label for="your-age-checkbox" style="margin-bottom: 0;">You are age 65 or older</label>
                         </div>
+                        <div id="spouse-age-checkbox-container" class="checkbox-group hidden">
+                            <input type="checkbox" id="spouse-age-checkbox">
+                            <label for="spouse-age-checkbox" style="margin-bottom: 0;">Spouse is age 65 or older</label>
+                        </div>
+
                         <div>
                             <label>Deductions</label>
                             <div class="deduction-toggle">
@@ -304,8 +312,8 @@
             const inputs = {
                 filingStatus: document.getElementById("filingStatus"),
                 grossIncome: document.getElementById("grossIncome"),
-                yourAge: document.getElementById("yourAge"),
-                spouseAge: document.getElementById("spouseAge"),
+                yourAgeCheckbox: document.getElementById("your-age-checkbox"),
+                spouseAgeCheckbox: document.getElementById("spouse-age-checkbox"),
                 itemizedDeductions: document.getElementById("itemizedDeductions"),
                 retirementContributions: document.getElementById("retirementContributions"),
                 taxesWithheld: document.getElementById("taxesWithheld"),
@@ -317,7 +325,7 @@
             };
             const containers = {
                 itemizedDeductions: document.getElementById("itemized-deductions-container"),
-                spouseAge: document.getElementById("spouse-age-container")
+                spouseAgeCheckbox: document.getElementById("spouse-age-checkbox-container")
             };
             const results = {
                 grossIncome: document.getElementById("result-gross-income"),
@@ -349,16 +357,16 @@
             const calculateAndRender = () => {
                 const t = inputs.filingStatus.value,
                     n = Number(inputs.grossIncome.value) || 0,
-                    o = Number(inputs.yourAge.value) || 0,
-                    a = Number(inputs.spouseAge.value) || 0,
+                    o = inputs.yourAgeCheckbox.checked,
+                    a = inputs.spouseAgeCheckbox.checked,
                     d = Number(inputs.itemizedDeductions.value) || 0,
                     i = Number(inputs.retirementContributions.value) || 0,
                     s = Number(inputs.taxesWithheld.value) || 0,
                     r = Number(inputs.taxCredits.value) || 0;
-                containers.spouseAge.style.display = "marriedFilingJointly" === t ? "block" : "none";
+                containers.spouseAgeCheckbox.style.display = "marriedFilingJointly" === t ? "flex" : "none";
                 let l = taxData2025.standardDeduction[t];
                 let c = 0;
-                "single" === t || "headOfHousehold" === t ? o >= 65 && n < taxData2025.bonusDeduction.singleThreshold && (c = taxData2025.bonusDeduction.single) : "marriedFilingJointly" === t ? n < taxData2025.bonusDeduction.marriedThreshold && (o >= 65 && a >= 65 ? c = taxData2025.bonusDeduction.married : (o >= 65 || a >= 65) && (c = taxData2025.bonusDeduction.single)) : "marriedFilingSeparately" === t && o >= 65 && n < taxData2025.bonusDeduction.singleThreshold && (c = taxData2025.bonusDeduction.single), l += c;
+                "single" === t || "headOfHousehold" === t ? o && n < taxData2025.bonusDeduction.singleThreshold && (c = taxData2025.bonusDeduction.single) : "marriedFilingJointly" === t ? n < taxData2025.bonusDeduction.marriedThreshold && (o && a ? c = taxData2025.bonusDeduction.married : (o || a) && (c = taxData2025.bonusDeduction.single)) : "marriedFilingSeparately" === t && o && n < taxData2025.bonusDeduction.singleThreshold && (c = taxData2025.bonusDeduction.single), l += c;
                 const u = ("standard" === deductionType ? l : d) + i,
                     m = Math.max(0, n - u),
                     p = taxData2025.taxBrackets[t];
